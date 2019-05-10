@@ -7,6 +7,13 @@ var config = {
 	antialias: false,
 	pixelArt: true,
 	roundPixels: true,
+	physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: false
+        }
+    },
 	scene: [ManagerScene]
 };
 
