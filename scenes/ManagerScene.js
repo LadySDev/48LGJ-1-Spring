@@ -1,3 +1,5 @@
+import { NonPlayerCharacter } from '../NonPlayerCharacter.js';
+
 export class ManagerScene extends Phaser.Scene{
 
 	constructor() {
@@ -106,11 +108,28 @@ export class ManagerScene extends Phaser.Scene{
 
 		}, this);
 
+		// add a npc		
+		//var r1 = this.add.circle((40/2) + (40 * 16), 40 * 8, 80, 0x6666ff);
+
+		this.zone = this.add.zone((40/2) + (40 * 16), 40 * 8).setSize(80, 80);
+		this.physics.world.enable(this.zone);
+		this.zone.body.setAllowGravity(false);
+		this.zone.body.moves = false;
+
+		this.npc1 = new NonPlayerCharacter(this, (40/2) + (40 * 16), 40 * 8, 'playerFaceDown');
+				
+		this.physics.add.collider(this.npc1, layer);
+		this.physics.add.collider(this.playerSprite, this.npc1);
+
+		this.physics.add.overlap(this.playerSprite, this.zone);
+
 	}
 
 	update(){
 	
-	
+		if(this.zone.body.touching.none === false){
+			this.npc1.trade();
+		}
 	
 	}
 
