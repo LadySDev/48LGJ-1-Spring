@@ -1,5 +1,9 @@
 ﻿import { Player } from '../Player.js';
 import { NonPlayerCharacter } from '../NonPlayerCharacter.js';
+import { Flower } from '../objects/Flower.js';
+import { Hoe } from '../objects/Hoe.js';
+import { Seed } from '../objects/Seed.js';
+import { WateringCan } from '../objects/WateringCan.js';
 
 export class GameScene extends Phaser.Scene{
 
@@ -63,13 +67,18 @@ export class GameScene extends Phaser.Scene{
 		this.zone.body.setOffset(-100);
 		
 		this.npc1 = new NonPlayerCharacter(this, (40/2) + (40 * 16), 40 * 8, 'playerFaceDown');
+		this.npc1.bag.addObject(new WateringCan());
+		this.npc1.bag.addObject(new WateringCan());
+		this.npc1.bag.addObject(new Hoe());
+		this.npc1.bag.addObject(new Seed());
+		this.npc1.bag.addObject(new Seed());
 				
 
 		this.physics.add.collider(this.npc1, layer);
 		this.physics.add.collider(this.playerSprite, this.npc1);
 
 
-		this.physics.add.overlap(this.playerSprite, this.zone, this.overlapInNPCAction.bind(this, this.npc1));
+		this.physics.add.overlap(this.playerSprite, this.zone, this.overlapInNPCAction.bind(this));
 				
 
 		this.keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -80,11 +89,15 @@ export class GameScene extends Phaser.Scene{
 		
 	}
 	
-	overlapInNPCAction(scene, npc){
+	overlapInNPCAction(scene, character1, character2){
   ﻿				
+		if(character1 === this.zone){
+			character1 = this.npc1;
+		}
+
 		if (Phaser.Input.Keyboard.JustDown(this.keyF))
 		{			
-			this.managerScene.showTradeScene(npc)
+			this.managerScene.showTradeScene(character1)
 		}
 		
 	}

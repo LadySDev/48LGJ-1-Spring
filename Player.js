@@ -12,7 +12,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite{
 		this.setOrigin(0.5, 1.0);
 
 		this.bag = new Bag();
-		this.money = 0;
+		this.money = 10;
 
 		this.playerMove = 80;
 

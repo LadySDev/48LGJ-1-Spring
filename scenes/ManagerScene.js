@@ -16,6 +16,9 @@ export class ManagerScene extends Phaser.Scene{
 		this.load.image('tilesImg', 'resources/Grounds.png');
 
 		this.load.image('playerFaceDown', 'resources/PlayerFaceDown.png');
+
+		this.load.image('tradeScene', 'resources/TradeScene.png');
+		this.load.image('arrowChoice', 'resources/ArrowTradeChoice.png');
 	
 	}
 
@@ -34,8 +37,9 @@ export class ManagerScene extends Phaser.Scene{
 	showTradeScene(npc){
 
 		console.log("show TradeScene");
-
-		this.scene.add('TradeScene', TradeScene, true);
+		
+		this.scene.add('TradeScene', TradeScene);
+		this.scene.start('TradeScene', {character: npc});
 		this.scene.pause('GameScene');
 		
 	}
