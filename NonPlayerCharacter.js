@@ -1,3 +1,5 @@
+import { Bag } from './Bag.js';
+
 export class NonPlayerCharacter extends Phaser.Physics.Arcade.Sprite{
 
 	constructor (scene, x, y, texture)
@@ -10,12 +12,8 @@ export class NonPlayerCharacter extends Phaser.Physics.Arcade.Sprite{
 		this.setCollideWorldBounds(true);
 		this.body.setImmovable(true);
 
+		this.bag = new Bag();
+
     }
 		
-	trade(){
-
-		console.log("you try to trade with me ^^");
-
-	}
-
 }

@@ -1,3 +1,5 @@
+import { Bag } from './Bag.js';
+
 export class Player extends Phaser.Physics.Arcade.Sprite{
 
 	constructor (scene, x, y, texture)
@@ -8,6 +10,9 @@ export class Player extends Phaser.Physics.Arcade.Sprite{
 		scene.physics.add.existing(this);
 
 		this.setOrigin(0.5, 1.0);
+
+		this.bag = new Bag();
+
 		this.playerMove = 80;
 
 		scene.input.keyboard.on('keydown_Z', function (event) {
