@@ -1,3 +1,4 @@
+﻿import { Player } from '../Player.js';
 import { NonPlayerCharacter } from '../NonPlayerCharacter.js';
 
 export class ManagerScene extends Phaser.Scene{
@@ -6,6 +7,8 @@ export class ManagerScene extends Phaser.Scene{
 
 		super({ key: 'ManagerScene', actve: true});
 		
+		this.isTradeActionActive = false;
+
 	}
 
 	preload(){
@@ -48,89 +51,46 @@ export class ManagerScene extends Phaser.Scene{
 				
 		map.setCollision(1);
 
-		this.playerSprite = this.physics.add.sprite(40+20, 120, 'playerFaceDown');
-		//this.playerSprite.setOrigin(0.5, 0.5); //by default
-		this.playerSprite.setOrigin(0.5, 1.0);
+
+		this.playerSprite = new Player(this, 40+20, 120, 'playerFaceDown');
 
 		this.physics.add.collider(this.playerSprite, layer);
 
-		this.playerMove = 80;
-
-		this.input.keyboard.on('keydown_Z', function (event) {
-					
-			this.playerSprite.setVelocityX(0);
-			this.playerSprite.setVelocityY(- this.playerMove);
-
-		}, this);
-
-		this.input.keyboard.on('keyup_Z', function (event) {
-							
-			this.playerSprite.setVelocityY(0);
-
-		}, this);
-
-		this.input.keyboard.on('keydown_Q', function (event) {
-
-			this.playerSprite.setVelocityX(- this.playerMove);
-			this.playerSprite.setVelocityY(0);
-
-		}, this);
-
-		this.input.keyboard.on('keyup_Q', function (event) {
-							
-			this.playerSprite.setVelocityX(0);
-
-		}, this);
-
-		this.input.keyboard.on('keydown_S', function (event) {
-
-			this.playerSprite.setVelocityX(0);
-			this.playerSprite.setVelocityY(this.playerMove);
-
-		}, this);
-
-		this.input.keyboard.on('keyup_S', function (event) {
-							
-			this.playerSprite.setVelocityY(0);
-
-		}, this);
-
-		this.input.keyboard.on('keydown_D', function (event) {
-
-			this.playerSprite.setVelocityX(this.playerMove);
-			this.playerSprite.setVelocityY(0);
-
-		}, this);
-
-		this.input.keyboard.on('keyup_D', function (event) {
-							
-			this.playerSprite.setVelocityX(0);
-
-		}, this);
-
-		// add a npc		
-		//var r1 = this.add.circle((40/2) + (40 * 16), 40 * 8, 80, 0x6666ff);
-
-		this.zone = this.add.zone((40/2) + (40 * 16), 40 * 8).setSize(80, 80);
-		this.physics.world.enable(this.zone);
-		this.zone.body.setAllowGravity(false);
-		this.zone.body.moves = false;
-
+		// add a npc			
+		this.zone = this.add.zone((40/2) + (40 * 16), 40 * 8).setCircleDropZone(100);				
+		this.physics.world.enable(this.zone);			
+		this.zone.body.setCircle(100);
+		this.zone.body.setOffset(-100);
+		
 		this.npc1 = new NonPlayerCharacter(this, (40/2) + (40 * 16), 40 * 8, 'playerFaceDown');
 				
+
 		this.physics.add.collider(this.npc1, layer);
 		this.physics.add.collider(this.playerSprite, this.npc1);
 
-		this.physics.add.overlap(this.playerSprite, this.zone);
 
+		this.physics.add.overlap(this.playerSprite, this.zone, this.overlapInNPCAction.bind(this));
+				
+
+		this.keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+
+		this.npc1Text = this.add.text(0, 0, 'Phaser', { fontFamily: 'Arial', fontSize: 12, color: '#000000' });
+		this.npc1Text.text = "                    Z"+"\n"+"Move with: Q D"+"\n"+"                    S"+"\n"+"Action with: F";
+		this.npc1Text.setPosition(this.npc1.x - this.npc1Text.width/2, this.npc1.y - 90);
+		
 	}
-
-	update(){
 	
-		if(this.zone.body.touching.none === false){
+	overlapInNPCAction(scene){
+  ﻿				
+		if (Phaser.Input.Keyboard.JustDown(this.keyF))
+		{
 			this.npc1.trade();
 		}
+		
+	}
 	
+	update(){
+		
 	}
 
 }
