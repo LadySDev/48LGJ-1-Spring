@@ -1,4 +1,5 @@
 ﻿import { GameScene } from './GameScene.js';
+import { TradeScene } from './TradeScene.js';
 
 export class ManagerScene extends Phaser.Scene{
 
@@ -28,6 +29,22 @@ export class ManagerScene extends Phaser.Scene{
 	
 	update(){
 		
+	}
+
+	showTradeScene(npc){
+
+		console.log("show TradeScene");
+
+		this.scene.add('TradeScene', TradeScene, true);
+		this.scene.pause('GameScene');
+		
+	}
+
+	hideTradeScene(){
+
+		this.scene.resume('GameScene');
+		this.scene.remove('TradeScene');
+
 	}
 
 }

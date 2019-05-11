@@ -9,6 +9,12 @@ export class GameScene extends Phaser.Scene{
 		
 	}
 
+	init(data){
+
+		this.managerScene = this.scene.get('ManagerScene');
+
+	}
+
 	preload(){
 	
 		console.log("GameScene preload");
@@ -63,7 +69,7 @@ export class GameScene extends Phaser.Scene{
 		this.physics.add.collider(this.playerSprite, this.npc1);
 
 
-		this.physics.add.overlap(this.playerSprite, this.zone, this.overlapInNPCAction.bind(this));
+		this.physics.add.overlap(this.playerSprite, this.zone, this.overlapInNPCAction.bind(this, this.npc1));
 				
 
 		this.keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -74,11 +80,11 @@ export class GameScene extends Phaser.Scene{
 		
 	}
 	
-	overlapInNPCAction(scene){
+	overlapInNPCAction(scene, npc){
   ﻿				
 		if (Phaser.Input.Keyboard.JustDown(this.keyF))
-		{
-			this.npc1.trade();
+		{			
+			this.managerScene.showTradeScene(npc)
 		}
 		
 	}
