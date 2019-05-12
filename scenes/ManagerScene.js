@@ -1,5 +1,6 @@
 ﻿import { GameScene } from './GameScene.js';
 import { TradeScene } from './TradeScene.js';
+import { TradeConfirmationScene } from './TradeConfirmationScene.js';
 
 export class ManagerScene extends Phaser.Scene{
 
@@ -11,21 +12,19 @@ export class ManagerScene extends Phaser.Scene{
 
 	preload(){
 	
-		console.log("ManagerScene preload");
-
 		this.load.image('tilesImg', 'resources/Grounds.png');
 
 		this.load.image('playerFaceDown', 'resources/PlayerFaceDown.png');
 
 		this.load.image('tradeScene', 'resources/TradeScene.png');
 		this.load.image('arrowChoice', 'resources/ArrowTradeChoice.png');
+
+		this.load.image('tradeConfirmationScene', 'resources/TradeConfirmationScene.png');
 	
 	}
 
 	create(){
 	
-		console.log("ManagerScene create");
-		
 		this.scene.add('GameScene', GameScene, true);
 		
 	}
@@ -34,12 +33,10 @@ export class ManagerScene extends Phaser.Scene{
 		
 	}
 
-	showTradeScene(npc){
+	showTradeScene(npc, side){
 
-		console.log("show TradeScene");
-		
 		this.scene.add('TradeScene', TradeScene);
-		this.scene.start('TradeScene', {character: npc});
+		this.scene.start('TradeScene', {character: npc, side: side});
 		this.scene.pause('GameScene');
 		
 	}
@@ -48,6 +45,21 @@ export class ManagerScene extends Phaser.Scene{
 
 		this.scene.resume('GameScene');
 		this.scene.remove('TradeScene');
+
+	}
+
+	showTradeConfirmationScene(npc, action, obj){
+
+		this.scene.add('TradeConfirmationScene', TradeConfirmationScene);
+		this.scene.start('TradeConfirmationScene', {character: npc, event: action, object: obj});
+		this.scene.pause('TradeScene');
+		
+	}
+
+	hideTradeConfirmationScene(npc, side){
+			
+		this.scene.start('TradeScene', {character: npc, side: side});
+		this.scene.remove('TradeConfirmationScene');
 
 	}
 

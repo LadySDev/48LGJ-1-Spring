@@ -21,14 +21,10 @@ export class GameScene extends Phaser.Scene{
 
 	preload(){
 	
-		console.log("GameScene preload");
-
 	}
 
 	create(){
 	
-		console.log("GameScene create");
-		
 		var groundValues = [
 			
 			[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -97,7 +93,7 @@ export class GameScene extends Phaser.Scene{
 
 		if (Phaser.Input.Keyboard.JustDown(this.keyF))
 		{			
-			this.managerScene.showTradeScene(character1)
+			this.managerScene.showTradeScene(character1, "buy")
 		}
 		
 	}
